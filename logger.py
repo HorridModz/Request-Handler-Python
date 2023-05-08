@@ -7,7 +7,7 @@ import json
 from enum import Enum
 from colorama import just_fix_windows_console
 
-__all__ = ["LoggingLevel", "Logging", "logging"]
+__all__ = ["LoggingLevel", "Logging", "logging", "enable_logging", "disable_logging"]
 
 
 class LoggingLevel(Enum):
@@ -22,6 +22,23 @@ class LoggingLevel(Enum):
 class Logging:
 
     def __init__(self, usedefaults=True, **kwargs):
+        """
+        :param usedefaults: Whether to use the default logging settings.
+        :param kwargs: If usedefaults is False, supply your own logging settings here:
+            colorized=True
+            printwarnings=True
+            printdebug=False,
+            printinfo=True
+            printimportant=True
+            printveryimportant=True
+            printsuperimportant=True
+            printspecial=True
+            donotprintspecial=False
+            donotprintsuccessinfo=False
+            allowoverride=True
+            printall=True
+            printnone=False
+        """
         if usedefaults:
             self._fromoptions(**_loadconfig())
         else:
@@ -83,7 +100,7 @@ class Logging:
             toprint = True
         else:
             toprint = False
-        if toprint:
+        if toprint and _enabled:
             self.printmessage(message, level, special, self.colorized)
 
     def printlog(self):
@@ -118,46 +135,79 @@ class Logging:
     def warning(self, message: str, warningtype=None):
         if warningtype:
             self.Log.append(f"[Warning]: {warningtype}: {message}")
-            if self.printwarnings:
+            if self.printwarnings and _enabled:
                 self.printmessage(f"{warningtype}: {message}", LoggingLevel.Warning, False, self.colorized)
         else:
             self.Log.append(f"[Warning]: {message}")
-            if self.printwarnings:
+            if self.printwarnings and _enabled:
                 self.printmessage(message, LoggingLevel.Warning, False, self.colorized)
 
 
-def _loadconfig():
-    configpath = os.path.join(os.path.dirname(__file__), "loggingconfig.json")
-    with open(configpath, "r") as f:
-        return json.load(f)
-
-
-def _writeconfig(**kwargs):
+def disable_logging() -> None:
     """
-    This is a neat trick that allows me to write logging options to the config file just by calling
+    Disables logging to console with print statements
+    """
+    global _enabled
+    _enabled = False
+
+
+def enable_logging() -> None:
+    """
+    Enables logging to console with print statements
+    """
+    global _enabled
+    _enabled = True
+
+
+def _loadconfig():
+    if os.path.exists(configpath):
+        with open(configpath, "r") as f:
+            return json.load(f)
+    else:
+        """
+        loggingconfig.json does not exist, fall back to hardcoded defaults
+        """
+        return _defaults
+
+
+def _writeconfig(config: dict):
+    with open(configpath, "w") as f:
+        json.dump(config, f, indent=4)
+
+
+def _config(**kwargs) -> dict:
+    """
+    This is a neat trick that lets me generate a dictionary with my config just by calling
     this function with the options as arguments!
     """
-    configpath = os.path.join(os.path.dirname(__file__), "loggingconfig.json")
-    with open(configpath, "w") as f:
-        json.dump(kwargs, f, indent=4)
+    return kwargs
 
+
+_defaults = _config(colorized=True,
+                    printwarnings=True,
+                    printdebug=False,
+                    printinfo=True,
+                    printimportant=True,
+                    printveryimportant=True,
+                    printsuperimportant=True,
+                    printspecial=True,
+                    donotprintspecial=False,
+                    donotprintsuccessinfo=False,
+                    allowoverride=True,
+                    printall=True,
+                    printnone=False
+                    )
+configpath = os.path.join(os.path.dirname(__file__), "loggingconfig.json")
+just_fix_windows_console()
+_enabled = True
 
 if __name__ != "__main__":
-    just_fix_windows_console()
     logging = Logging(usedefaults=True)
 
 if __name__ == "__main__":
-    _writeconfig(colorized=True,
-                 printwarnings=True,
-                 printdebug=False,
-                 printinfo=True,
-                 printimportant=True,
-                 printveryimportant=True,
-                 printsuperimportant=True,
-                 printspecial=True,
-                 donotprintspecial=False,
-                 donotprintsuccessinfo=False,
-                 allowoverride=True,
-                 printall=True,
-                 printnone=False
-                 )
+    if not os.path.exists(configpath):
+        try:
+            _writeconfig(_defaults)
+            print(f"Created loggingconfig.json at {configpath}")
+        except Exception as e:
+            print(f"Failed to create loggingconfig.json at {configpath}: {e}")
