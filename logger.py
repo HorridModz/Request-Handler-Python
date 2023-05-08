@@ -27,7 +27,7 @@ class Logging:
         :param kwargs: If usedefaults is False, supply your own logging settings here:
             colorized=True
             printwarnings=True
-            printdebug=False,
+            printdebug=False
             printinfo=True
             printimportant=True
             printveryimportant=True
