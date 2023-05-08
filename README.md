@@ -29,26 +29,26 @@ RequestHandler.get("https://example.com")
 # Logging
 Logging to console is disabled by default. To enable it, use `enable_logging()`:
 ```py
-from requesthandler import enable_logging()
+from src.requesthandler import enable_logging()
 enable_logging()
 ```
 
 To disable it again, use `disable_logging`:
 ```py
-from requesthandler import disable_logging()
+from src.requesthandler import disable_logging()
 disable_logging()
 ```
 
 To access the log, use the Log field of the logging class:
 
 ```py
-from requesthandler import logging
+from src.requesthandler import logging
 print(logging.log)
 ```
 
 You can also change the logging settings by replacing `logging` with your own instance of the logging class:
 ```py
-from requesthandler import logging, Logging
+from src.requesthandler import logging, Logging
 logging = Logging(usedefaults = False, colorized = False)
 ```
 :param usedefaults: Whether to use the default logging settings.
