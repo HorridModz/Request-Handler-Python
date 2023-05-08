@@ -1,7 +1,9 @@
 """
 Custom logger by me, since I'm not a fan of the standard logging module
 """
+# TODO: Add documentation
 
+from typing import Dict
 import os
 import json
 from enum import Enum
@@ -21,7 +23,7 @@ class LoggingLevel(Enum):
 
 class Logging:
 
-    def __init__(self, usedefaults=True, **kwargs):
+    def __init__(self, usedefaults: bool = True, **kwargs) -> None:
         """
         :param usedefaults: Whether to use the default logging settings.
         :param kwargs: If usedefaults is False, supply your own logging settings here:
@@ -74,8 +76,8 @@ class Logging:
         self.printnone = printnone
         self.Log = []
 
-    def log(self, message: str, level: LoggingLevel = LoggingLevel.Info, override=False, successinfo=False,
-            special=False):
+    def log(self, message: str, level: LoggingLevel = LoggingLevel.Info, override: bool = False,
+            successinfo: bool = False, special: bool = False) -> None:
         self.Log.append(message)
         if self.printnone:
             return
@@ -107,7 +109,7 @@ class Logging:
         print(self.Log)
 
     @staticmethod
-    def printmessage(message: str, level: LoggingLevel, special, colorized):
+    def printmessage(message: str, level: LoggingLevel, special: bool, colorized: bool) -> None:
         colors = {
             "Debug": "\033[0m",
             "Info": "\033[94m",
@@ -132,7 +134,7 @@ class Logging:
             else:
                 print(f"[{level.name}]: {message}")
 
-    def warning(self, message: str, warningtype=None):
+    def warning(self, message: str, warningtype=None) -> None:
         if warningtype:
             self.Log.append(f"[Warning]: {warningtype}: {message}")
             if self.printwarnings and _enabled:
@@ -159,7 +161,7 @@ def enable_logging() -> None:
     _enabled = True
 
 
-def _loadconfig():
+def _loadconfig() -> Dict:
     if os.path.exists(configpath):
         with open(configpath, "r") as f:
             return json.load(f)
@@ -170,12 +172,12 @@ def _loadconfig():
         return _defaults
 
 
-def _writeconfig(config: dict):
+def _writeconfig(config: Dict) -> None:
     with open(configpath, "w") as f:
         json.dump(config, f, indent=4)
 
 
-def _config(**kwargs) -> dict:
+def _config(**kwargs) -> Dict:
     """
     This is a neat trick that lets me generate a dictionary with my config just by calling
     this function with the options as arguments!
