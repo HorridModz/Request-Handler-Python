@@ -265,7 +265,7 @@ class RequestHandler:
             headers['Authorization'] = auth
         logmessage = f"Making HTTP post request to {link}"
         requestdatamessage = []
-        if data:
+        if data is not None:
             requestdatamessage.append(f"data \"{_truncatestring(str(data), maxlength=100, maxlines=1)}\""
                                       f" of content type {headers['Content-Type']}")
         else:
