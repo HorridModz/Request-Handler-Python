@@ -6,9 +6,9 @@ Only supports get and post requests
 from typing import Set, Dict, Any, Union, Optional, Sequence
 from collections import OrderedDict
 import requests
-from src.logger import logging, LoggingLevel
+from src.logger import logging, LoggingLevel, enable_logging, disable_logging
 
-__all__ = ["RequestHandler", "HTTPError", "NoInternetError"]
+__all__ = ["RequestHandler", "HTTPError", "NoInternetError", "enable_logging", "disable_logging"]
 
 
 def _list_items(items: Union[Sequence[str], Set[str]]) -> str:
@@ -322,3 +322,6 @@ class RequestHandler:
         """
         if not cls.check_internet():
             raise NoInternetError("No internet connection")
+
+
+disable_logging()
