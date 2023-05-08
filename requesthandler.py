@@ -112,9 +112,6 @@ class RequestHandler:
     Helper class for making http requests
     """
 
-    def __init__(self):
-        self.assert_internet()
-
     @classmethod
     def get(cls, link: str, params: Dict = None, auth: Any = None, cache: bool = True,
             headers: Dict = None, timeout: float = 5, errormessage: str = None,
