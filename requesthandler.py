@@ -6,9 +6,10 @@ Only supports get and post requests
 from typing import Set, Dict, Any, Union, Optional, Sequence
 from collections import OrderedDict
 import requests
-from src.logger import logging, LoggingLevel, enable_logging, disable_logging
 
-__all__ = ["RequestHandler", "HTTPError", "NoInternetError", "enable_logging", "disable_logging"]
+from src.logger import Logging, logging, LoggingLevel, enable_logging, disable_logging
+
+__all__ = ["RequestHandler", "HTTPError", "NoInternetError", "Logging", "logging", "enable_logging", "disable_logging"]
 
 
 def _list_items(items: Union[Sequence[str], Set[str]]) -> str:
