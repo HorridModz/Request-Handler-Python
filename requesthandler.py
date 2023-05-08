@@ -18,7 +18,7 @@ def _list_items(items: Union[Sequence[str], Set[str]]) -> str:
     Helper function to convert a list of items to a grammatically correct string
     """
     if not isinstance(items, Union[tuple, list]):
-        logging.log(f"_list_items() function called on object of type {type(items).__class__.__name__}"
+        logging.log(f"_list_items() function called on object of type {type(items).__name__}"
                     f", which is unordered. Converting to a tuple to make it ordered.",
                     LoggingLevel.Debug)
         items = tuple(items)
@@ -256,7 +256,7 @@ class RequestHandler:
                     contenttype = "application/json"
                 else:
                     raise ValueError(f"Failed to make http post request to {link}: Could not determine content type of"
-                                     f" data, which is of type {type(data).__class__.__name__}. Please manually"
+                                     f" data, which is of type {type(data).__name__}. Please manually"
                                      f" supply the content type using the contenttype parameter.")
                 logging.log("Automatically detected content type of data"
                             f" \"{_truncatestring(str(data), maxlength=100, maxlines=1)}\": {contenttype}")
