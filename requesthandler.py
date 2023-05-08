@@ -163,7 +163,7 @@ class RequestHandler:
             requestdatamessage.append(
                 f"headers {_truncatedict(headers, maxitems=3, maxlengthperitem=45, maxlinesperitem=1)}")
         if requestdatamessage:
-            logmessage += f"with {_list_items(requestdatamessage)}"
+            logmessage += f" with {_list_items(requestdatamessage)}"
         if timeout:
             logmessage += f" with timeout of {timeout} seconds..."
         logging.log(logmessage, LoggingLevel.Info)
@@ -276,7 +276,7 @@ class RequestHandler:
             requestdatamessage.append(
                 f"headers {_truncatedict(headers, maxitems=3, maxlengthperitem=45, maxlinesperitem=1)}")
         if requestdatamessage:
-            logmessage += f"with {_list_items(requestdatamessage)}"
+            logmessage += f" with {_list_items(requestdatamessage)}"
         if timeout:
             logmessage += f" with timeout of {timeout} seconds..."
         logging.log(logmessage, LoggingLevel.Info)
