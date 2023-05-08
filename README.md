@@ -8,6 +8,7 @@ Only supports **get** and **post** requests.
 - [Colorama Module](https://pypi.org/project/colorama/) - install with `pip install colorama`
 
 # Usage
+Make sure you have all the requirements in [requirements.txt](https://github.com/HorridModz/Request-Handler-Python/blob/main/requirements.txt) installed.
 Add both [logger.py](https://github.com/HorridModz/Request-Handler-Python/blob/main/logger.py) and [requesthandler.py](https://github.com/HorridModz/Request-Handler-Python/blob/main/requesthandler.py) to your project, then import `requesthandler`:
 ```py
 import src.requesthandler
@@ -24,6 +25,49 @@ This is a static class, so you do not need to create an instance of it. Instead,
 ```
 RequestHandler.get("https://example.com")
 ```
+
+# Logging
+Logging to console is disabled by default. To enable it, use `enable_logging()`:
+```py
+from requesthandler import enable_logging()
+enable_logging()
+```
+
+To disable it again, use `disable_logging`:
+```py
+from requesthandler import disable_logging()
+disable_logging()
+```
+
+To access the log, use the Log field of the logging class:
+
+```py
+from requesthandler import logging
+print(logging.log)
+```
+
+You can also change the logging settings by replacing `logging` with your own instance of the logging class:
+```py
+from requesthandler import logging, Logging
+logging = Logging(usedefaults = False, colorized = False)
+```
+:param usedefaults: Whether to use the default logging settings.
+:param kwargs: If usedefaults is False, supply your own logging settings here:
+    colorized=True
+    printwarnings=True
+    printdebug=False
+    printinfo=True
+    printimportant=True
+    printveryimportant=True
+    printsuperimportant=True
+    printspecial=True
+    donotprintspecial=False
+    donotprintsuccessinfo=False
+    allowoverride=True
+    printall=True
+    printnone=False
+
+Note that this will clear the existing log (`logging.Log`).
 
 # Checking for Internet
 To assert that an internet connection is available and raise an error if it is not, use **assert_internet()**:
