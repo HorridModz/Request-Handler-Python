@@ -168,12 +168,28 @@ class RequestHandler:
         logging.log(logmessage, LoggingLevel.Info)
         try:
             response = requests.get(link, params=params, headers=headers, timeout=timeout)
-        except requests.ConnectionError:
-            if errormessage:
-                raise NoInternetError(f"{errormessage}: HTTP get request to {link} failed"
-                                      " - No internet connection") from None
+        except requests.ConnectionError as e:
+            # noinspection IncorrectFormatting
+            if "An existing connection was forcibly closed by the remote host" in str(e):
+                if errormessage:
+                    raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - Connection forcibly closed"
+                                    f" by remote host") from None
+                else:
+                    raise HTTPError(f"HTTP get request to {link} failed - Connection forcibly closed"
+                                    f" by remote host") from None
+            elif "Failed to establish a new connection:" in str(e) and "Max retries exceeded with url:" in str(e) \
+                    and "Caused by NewConnectionError" in str(e):
+                if errormessage:
+                    raise NoInternetError(f"{errormessage}: HTTP get request to {link} failed"
+                                          " - No internet connection") from None
+                else:
+                    raise NoInternetError(f"HTTP get request to {link} failed"
+                                          " - No internet connection") from None
             else:
-                raise NoInternetError(f"HTTP get request to {link} failed - No internet connection") from None
+                if errormessage:
+                    raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - {e}") from None
+                else:
+                    raise HTTPError(f"HTTP get request to {link} failed - {e}") from None
         except Exception as e:
             if errormessage:
                 raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - {e}") from None
@@ -185,10 +201,10 @@ class RequestHandler:
             if exceptionifbadstatuscode:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP get request to {link} failed"
-                                    " - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({str(response.status_code)})")
                 else:
                     raise HTTPError(f"HTTP get request to {link} failed"
-                                    " - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({str(response.status_code)})")
             else:
                 logging.log(f"HTTP get request to {link} failed"
                             " - returned non-200 http status code ({str(response.status_code)})",
@@ -265,12 +281,28 @@ class RequestHandler:
         logging.log(logmessage, LoggingLevel.Info)
         try:
             response = requests.post(link, json=json, headers=headers, timeout=timeout)
-        except requests.ConnectionError:
-            if errormessage:
-                raise NoInternetError(f"{errormessage}: HTTP post request to {link} failed"
-                                      " - No internet connection") from None
+        except requests.ConnectionError as e:
+            # noinspection IncorrectFormatting
+            if "An existing connection was forcibly closed by the remote host" in str(e):
+                if errormessage:
+                    raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - Connection forcibly closed"
+                                    f" by remote host") from None
+                else:
+                    raise HTTPError(f"HTTP get request to {link} failed - Connection forcibly closed"
+                                    f" by remote host") from None
+            elif "Failed to establish a new connection:" in str(e) and "Max retries exceeded with url:" in str(e) \
+                    and "Caused by NewConnectionError" in str(e):
+                if errormessage:
+                    raise NoInternetError(f"{errormessage}: HTTP post request to {link} failed"
+                                          " - No internet connection") from None
+                else:
+                    raise NoInternetError(f"HTTP post request to {link} failed"
+                                          " - No internet connection") from None
             else:
-                raise NoInternetError(f"HTTP post request to {link} failed - No internet connection") from None
+                if errormessage:
+                    raise HTTPError(f"{errormessage}: HTTP post request to {link} failed - {e}") from None
+                else:
+                    raise HTTPError(f"HTTP post request to {link} failed - {e}") from None
         except Exception as e:
             if errormessage:
                 raise HTTPError(f"{errormessage}: HTTP post request to {link} failed - {e}") from None
@@ -282,10 +314,10 @@ class RequestHandler:
             if exceptionifbadstatuscode:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP get request to {link} failed"
-                                    " - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({str(response.status_code)})")
                 else:
                     raise HTTPError(f"HTTP post request to {link} failed"
-                                    " - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({str(response.status_code)})")
             else:
                 logging.log(f"HTTP post request to {link} failed"
                             " - returned non-200 http status code ({str(response.status_code)})",
@@ -308,21 +340,26 @@ class RequestHandler:
             logging.log("Checking for internet connection...", LoggingLevel.Info)
         logging.log(f"Using {testurl} to check for internet connection", LoggingLevel.Debug)
         try:
-            requests.get(testurl, timeout=timeout)
+            RequestHandler.get(testurl, timeout=timeout, errormessage="Failed to check for internet connection")
+        except NoInternetError:
+            return False
+        else:
             logging.log(f"Successfully confirmed internet connection!", LoggingLevel.Info, successinfo=True)
             return True
-        except (requests.ConnectionError, requests.Timeout):
-            return False
 
     @classmethod
-    def assert_internet(cls) -> None:
+    def assert_internet(cls, testurl: str = "https://www.example.com", timeout: float = 5) -> None:
         """
         Asserts that there is an internet connection.
 
+        :pparam testurl: URL to make request to
+        :param timeout: Timeout for request. If the timeout is exceeded, the internet connection check will fail.
+
         :raises NoInternetError: No internet connection
         """
-        if not cls.check_internet():
+        if not cls.check_internet(testurl, timeout):
             raise NoInternetError("No internet connection")
+
 
 
 disable_logging()
