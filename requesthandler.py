@@ -7,7 +7,8 @@ from typing import Set, Dict, Any, Union, Optional, Sequence
 from collections import OrderedDict
 import requests
 
-from src.logger import Logging, logging, LoggingLevel, enable_logging, disable_logging
+# Don't import logging; we make our own instance
+from src.logger import Logging, LoggingLevel
 
 __all__ = ["RequestHandler", "HTTPError", "NoInternetError", "Logging", "logging", "enable_logging", "disable_logging"]
 
@@ -352,7 +353,7 @@ class RequestHandler:
         """
         Asserts that there is an internet connection.
 
-        :pparam testurl: URL to make request to
+        :param testurl: URL to make request to
         :param timeout: Timeout for request. If the timeout is exceeded, the internet connection check will fail.
 
         :raises NoInternetError: No internet connection
@@ -360,6 +361,23 @@ class RequestHandler:
         if not cls.check_internet(testurl, timeout):
             raise NoInternetError("No internet connection")
 
+
+# Make our own instance of logging
+logging = Logging(usedefaults=True)
+
+
+def enable_logging():
+    """
+    Enables logging to the console with print statements
+    """
+    logging.enable()
+
+
+def disable_logging():
+    """
+    Enables logging to the console with print statements
+    """
+    logging.disable()
 
 
 disable_logging()
