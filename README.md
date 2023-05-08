@@ -8,7 +8,7 @@ Only supports **get** and **post** requests.
 - [Colorama Module](https://pypi.org/project/colorama/) - install with `pip install colorama`
 
 # Usage
-Add both [logger.py]((https://github.com/HorridModz/Request-Handler-Python/blob/main/logger.py) and [requesthandler.py]((https://github.com/HorridModz/Request-Handler-Python/blob/main/requesthandler.py) to your project, then import `requesthandler`:
+Add both [logger.py](https://github.com/HorridModz/Request-Handler-Python/blob/main/logger.py) and [requesthandler.py](https://github.com/HorridModz/Request-Handler-Python/blob/main/requesthandler.py) to your project, then import `requesthandler`:
 ```py
 import src.requesthandler
 ```
