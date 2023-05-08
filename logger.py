@@ -112,7 +112,7 @@ class Logging:
             self.printmessage(message, level, special, self.colorized)
 
     def printlog(self):
-        print(self.Log)
+        print("\n".join(self.Log))
 
     @staticmethod
     def printmessage(message: str, level: LoggingLevel, special: bool, colorized: bool) -> None:
