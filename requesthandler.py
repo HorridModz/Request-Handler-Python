@@ -202,13 +202,13 @@ class RequestHandler:
             if exceptionifbadstatuscode:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP get request to {link} failed"
-                                    f" - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({response.status_code})")
                 else:
                     raise HTTPError(f"HTTP get request to {link} failed"
-                                    f" - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({response.status_code})")
             else:
                 logging.log(f"HTTP get request to {link} failed"
-                            " - returned non-200 http status code ({str(response.status_code)})",
+                            f" - returned non-200 http status code ({response.status_code})",
                             LoggingLevel.Info, successinfo=True)
         return response
 
@@ -315,13 +315,13 @@ class RequestHandler:
             if exceptionifbadstatuscode:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP get request to {link} failed"
-                                    f" - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({response.status_code})")
                 else:
                     raise HTTPError(f"HTTP post request to {link} failed"
-                                    f" - returned non-200 http status code ({str(response.status_code)})")
+                                    f" - returned non-200 http status code ({response.status_code})")
             else:
                 logging.log(f"HTTP post request to {link} failed"
-                            " - returned non-200 http status code ({str(response.status_code)})",
+                            f" - returned non-200 http status code ({response.status_code})",
                             LoggingLevel.Info, successinfo=True)
         return response
 
