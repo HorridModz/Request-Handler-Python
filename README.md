@@ -50,6 +50,7 @@ You can also change the logging settings by replacing `logging` with your own in
 ```py
 from src.requesthandler import logging, Logging
 logging = Logging(usedefaults=False, colorized=False)
+```<br>
 ```
 :param usedefaults: Whether to use the default logging settings.
 :param kwargs: If usedefaults is False, supply your own logging settings here:
@@ -66,23 +67,9 @@ logging = Logging(usedefaults=False, colorized=False)
     allowoverride=True
     printall=True
     printnone=False
+```
 
 Note that this will clear the existing log (`logging.Log`).
-
-**Warning**:
-`enable_logging()` and `disable_logging()` effect the global log, not just requestshandler - if another file is using `logger`, it will also enable / disable for this file.<br>
-If this is the case, call `enable_logging()` to re-enable logging, then disable locally.
-To disable locally, you'll have to manually overwrite `logging`:
-```py
-from src.requesthandler import logging, Logging
-logging = Logging(usedefaults=False, printnone=True, allowoverride=False)
-```
-
-To re-enable locally, you'll also have to manually overwrite `logging`:
-```py
-from src.requesthandler import logging, Logging
-logging = Logging(usedefaults=True)
-```
 
 # Checking for Internet
 To assert that an internet connection is available and raise an error if it is not, use **assert_internet()**:
