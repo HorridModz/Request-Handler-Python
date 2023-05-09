@@ -43,8 +43,10 @@ To access the log, use the Log field of the logging class:
 
 ```py
 from src.requesthandler import logging
-print(logging.log)
+print(logging.Log)
 ```
+
+Remember that the log class provides a dedicated method (`printlog()`) so in the real world, use that instead of `print(logging.Log)`. The above code snippet is only for example's sake.
 
 You can also change the logging settings by replacing `logging` with your own instance of the logging class. For example, to disable colorized logging:
 ```py
@@ -53,6 +55,7 @@ logging = Logging(usedefaults=False, colorized=False)
 ```<br>
 ```
 :param usedefaults: Whether to use the default logging settings.
+:param synclog: Whether to sync the Log list with other instances of this class
 :param kwargs: If usedefaults is False, supply your own logging settings here:
     colorized=True
     printwarnings=True
