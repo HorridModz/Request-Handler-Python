@@ -22,9 +22,10 @@ class LoggingLevel(Enum):
 
 class Logging:
 
-    def __init__(self, usedefaults: bool = True, **kwargs) -> None:
+    def __init__(self, usedefaults: bool = True, synclog: bool = True, **kwargs) -> None:
         """
-        :param usedefaults: Whether to use the default logging settings.
+        :param usedefaults: Whether to use the default logging settings
+        :param synclog: Whether to sync the Log list with other instances of this class
         :param kwargs: If usedefaults is False, supply your own logging settings here:
             colorized=True
             printwarnings=True
@@ -44,6 +45,10 @@ class Logging:
             self._fromoptions(**_loadconfig())
         else:
             self._fromoptions(**kwargs)
+        if synclog:
+            self.Log = _Log
+        else:
+            self.Log = []
         self.enabled = True
 
     def _fromoptions(self,
@@ -74,13 +79,12 @@ class Logging:
         self.allowoverride = allowoverride
         self.printall = printall
         self.printnone = printnone
-        self.Log = []
+
+    def enable(self):
+        self.enabled = True
 
     def disable(self):
         self.enabled = False
-
-    def enable(self):
-        self.disabled = False
 
     def log(self, message: str, level: LoggingLevel = LoggingLevel.Info, override: bool = False,
             successinfo: bool = False, special: bool = False) -> None:
@@ -209,8 +213,8 @@ configpath = os.path.join(os.path.dirname(__file__), "loggingconfig.json")
 just_fix_windows_console()
 _enabled = True
 
-if __name__ != "__main__":
-    logging = Logging(usedefaults=True)
+_Log = []
+logging = Logging(usedefaults=True)
 
 if __name__ == "__main__":
     if not os.path.exists(configpath):
