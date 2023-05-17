@@ -144,7 +144,7 @@ class Logging:
             else:
                 print(f"[{level.name}]: {message}")
 
-    def warning(self, message: str, warningtype=None) -> None:
+    def warning(self, message: str, warningtype: BaseException = None) -> None:
         if warningtype:
             self.Log.append(f"[Warning]: {warningtype}: {message}")
             if self.printwarnings and _enabled and self.enabled:
