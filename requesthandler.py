@@ -114,8 +114,7 @@ class RequestHandler:
     Helper class for making http requests
     """
 
-    @classmethod
-    def get(cls, link: str, params: Dict = None, auth: Any = None, cache: bool = True,
+    def get(link: str, params: Dict = None, auth: Any = None, cache: bool = True,
             headers: Dict = None, timeout: float = 5, errormessage: str = None,
             exceptionifbadstatuscode: bool = True) -> requests.Response:
         """
@@ -212,8 +211,7 @@ class RequestHandler:
                             LoggingLevel.Info, successinfo=True)
         return response
 
-    @classmethod
-    def post(cls, link: str, data: Any = None, contenttype: str = None, json: Dict = None,
+    def post(link: str, data: Any = None, contenttype: str = None, json: Dict = None,
              auth: Any = None, headers: Dict = None, timeout: float = 5, errormessage: str = None,
              exceptionifbadstatuscode: bool = True) -> requests.Response:
         """
