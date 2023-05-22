@@ -177,14 +177,6 @@ class RequestHandler:
                 else:
                     raise HTTPError(f"HTTP get request to {link} failed - Connection forcibly closed"
                                     f" by remote host") from None
-            elif "Failed to establish a new connection:" in str(e) and "Max retries exceeded with url:" in str(e) \
-                    and "Caused by NewConnectionError" in str(e):
-                if errormessage:
-                    raise NoInternetError(f"{errormessage}: HTTP get request to {link} failed"
-                                          " - No internet connection") from None
-                else:
-                    raise NoInternetError(f"HTTP get request to {link} failed"
-                                          " - No internet connection") from None
             else:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - {e}") from None
@@ -289,14 +281,6 @@ class RequestHandler:
                 else:
                     raise HTTPError(f"HTTP get request to {link} failed - Connection forcibly closed"
                                     f" by remote host") from None
-            elif "Failed to establish a new connection:" in str(e) and "Max retries exceeded with url:" in str(e) \
-                    and "Caused by NewConnectionError" in str(e):
-                if errormessage:
-                    raise NoInternetError(f"{errormessage}: HTTP post request to {link} failed"
-                                          " - No internet connection") from None
-                else:
-                    raise NoInternetError(f"HTTP post request to {link} failed"
-                                          " - No internet connection") from None
             else:
                 if errormessage:
                     raise HTTPError(f"{errormessage}: HTTP post request to {link} failed - {e}") from None
