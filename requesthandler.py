@@ -17,7 +17,7 @@ def _list_items(items: Union[Sequence[str], Set[str]]) -> str:
     """
     Helper function to convert a list of items to a grammatically correct string
     """
-    if not isinstance(items, Union[tuple, list]):
+    if not isinstance(items, (tuple, list)):
         logging.log(f"_list_items() function called on object of type {type(items).__name__}"
                     f", which is unordered. Converting to a tuple to make it ordered.",
                     LoggingLevel.Debug)
