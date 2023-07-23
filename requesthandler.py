@@ -187,7 +187,7 @@ class RequestHandler:
                 raise HTTPError(f"{errormessage}: HTTP get request to {link} failed - {e}") from None
             else:
                 raise HTTPError(f"HTTP get request to {link} failed - {e}") from None
-        if response.status_code == 200:
+        if 200 <= response.status_code < 300:
             logging.log(f"Successfully made HTTP get request to {link}", LoggingLevel.Info, successinfo=True)
         else:
             if exceptionifbadstatuscode:
@@ -291,7 +291,7 @@ class RequestHandler:
                 raise HTTPError(f"{errormessage}: HTTP post request to {link} failed - {e}") from None
             else:
                 raise HTTPError(f"HTTP post request to {link} failed - {e}") from None
-        if response.status_code == 200:
+        if if 200 <= response.status_code < 300:
             logging.log(f"Successfully made HTTP post request to {link}", LoggingLevel.Info, successinfo=True)
         else:
             if exceptionifbadstatuscode:
