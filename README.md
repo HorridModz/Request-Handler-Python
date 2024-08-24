@@ -1,5 +1,6 @@
 # Request-Handler-Python
-A python helper class for making HTTP requests (mainly just a wrapper around the [Requests Module](https://pypi.org/project/requests/))<br>
+A python helper class for making HTTP requests (mainly just a wrapper around the [requests](https://pypi.org/project/requests/)) module
+
 Only supports **get** and **post** requests.
 
 # Requirements
