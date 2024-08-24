@@ -90,7 +90,7 @@ else:
 ```
 
 # Performing Requests
-This class only supports **get** and **post** requests for now.
+This module only supports **get** and **post** requests for now.
 Use `RequestHandler.get()` and `RequestHandler.post()` respectively.
 
 **Example**:
