@@ -52,7 +52,9 @@ You can also change the logging settings by replacing `logging` with your own in
 ```py
 from src.requesthandler import logging, Logging
 logging = Logging(usedefaults=False, colorized=False)
-```<br>
+```
+<br>
+
 ```
 :param usedefaults: Whether to use the default logging settings.
 :param synclog: Whether to sync the Log list with other instances of this class
